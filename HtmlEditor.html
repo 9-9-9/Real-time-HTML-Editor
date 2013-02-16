@@ -1,0 +1,74 @@
+<title>HtmlEditor</title>
+<link rel="shortcut icon" href="http://www.w3.org/html/logo/badge/html5-badge-h-solo.png"/>
+<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.min.css" rel="stylesheet">
+<style>
+	#f{
+		top:0; 
+		right:0; 
+		width:100%; 
+		height:49%; 
+		position:absolute;
+	} 
+	#e{ 
+		left:0;
+		right:0; 
+		bottom:0; 
+		width:100%; 
+		height:50%; 
+		position:absolute;
+	}
+	#m{
+		top:50%; 
+		right:0; 
+		width:10px; 
+		z-index:1;
+		position:absolute;
+		-webkit-border-radius: 0 0 0 200px;
+	}
+    .content {
+        display: none;
+		top: -1px;
+		right: 0;
+		z-index: 1;
+		position: absolute;
+    }
+    #m:active .content {
+    	display: block;
+    }
+    .content:hover {
+    	display: block;
+    }
+    i[class^="icon-"] {
+    	font-size: 20px;
+    }
+</style> 
+<iframe id="f"></iframe>
+<div id="e" onkeyup="key()"></div>
+<div id="m" class="btn btn-success" onclick="run()"><i class="icon-play-circle"></i></div>
+<script src="https://raw.github.com/ajaxorg/ace-builds/master/src-min-noconflict/ace.js"></script>
+<script> 
+	var e = ace.edit("e"),
+		f = document.getElementById("f");
+	e.setTheme("ace/theme/monokai"); 
+	e.getSession().setMode("ace/mode/html"); 
+	function key(){
+		if (!f.src){
+			f.contentDocument.documentElement.innerHTML = e.getValue();
+		}else{
+			f.setAttribute('onload', 'reload()');
+			f.src='';
+		};
+	};
+	function run(){
+		f.src = 'data:text/html;charset=utf-8,' + e.getValue();
+	};
+	function reload(){
+		f.removeAttribute('onload');
+		f.contentDocument.documentElement.innerHTML = e.getValue();
+	};
+	window.onbeforeunload = function(){  
+      return '';
+    };
+</script>
